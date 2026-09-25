@@ -1,5 +1,8 @@
-# RP Glass v0.3.1 HOTFIX
-
-Emergency rollback of the structural layout overrides introduced in v0.3.0.
-Keeps the visual polish, Thoughts stars and Reader styling, but leaves
-SillyTavern's native message flex/layout structure untouched.
+# RP Glass v0.4.0
+Safe decorative pass.
+- no SillyTavern structural flex overrides
+- tighter meta-card spacing
+- Thoughts keep animated stars
+- Independent Reader becomes a readable old-book/editorial panel
+- larger Reader text
+- ornamental initial, fleur/leaf mark, subtle breathing gold edge and moving shadow ambience

@@ -1,80 +1,52 @@
-/* RP GLASS v0.3.1 HOTFIX
-   Important: visual styling only. Do NOT override ST's .mes/.mes_block/.mes_header display/flex structure.
-*/
-
+/* RP GLASS v0.4.0 — Reader "old book" polish. SAFE: no ST flex-layout overrides. */
 :root.rp-glass-loaded{
  --rpg-purple:#b86cff;--rpg-cyan:#75eaff;--rpg-gold:#efb76c;
  --rpg-text:#f1edf7;--rpg-green:#8cff9b;
 }
-
 .rp-glass-loaded #chat .mes.rp-glass-message{
- position:relative!important;
- border:1px solid rgba(166,100,238,.38)!important;
- border-radius:20px!important;
- background:
-  radial-gradient(circle at 90% 3%,rgba(165,87,255,.13),transparent 24%),
-  linear-gradient(150deg,rgba(17,13,31,.84),rgba(6,10,18,.91))!important;
- box-shadow:0 12px 34px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.04),
-            0 0 24px rgba(132,69,220,.08)!important;
- backdrop-filter:blur(9px)!important;-webkit-backdrop-filter:blur(9px)!important;
- overflow:visible!important;
+ position:relative!important;border:1px solid rgba(166,100,238,.38)!important;border-radius:20px!important;
+ background:radial-gradient(circle at 90% 3%,rgba(165,87,255,.13),transparent 24%),
+ linear-gradient(150deg,rgba(17,13,31,.84),rgba(6,10,18,.91))!important;
+ box-shadow:0 12px 34px rgba(0,0,0,.28),inset 0 1px rgba(255,255,255,.04),0 0 24px rgba(132,69,220,.08)!important;
+ backdrop-filter:blur(9px)!important;-webkit-backdrop-filter:blur(9px)!important;overflow:visible!important;
 }
-
 .rp-glass-loaded #chat .mes.rp-glass-message::after{
- content:"✦"!important;position:absolute!important;right:13px!important;top:10px!important;
- color:#d9a9ff!important;font-size:12px!important;text-shadow:0 0 10px #b86cff!important;
- pointer-events:none!important;
+ content:"✦"!important;position:absolute!important;right:13px!important;top:10px!important;color:#d9a9ff!important;
+ font-size:12px!important;text-shadow:0 0 10px #b86cff!important;pointer-events:none!important;
 }
-
-/* Header cosmetics only — no display/flex/width changes */
 .rp-glass-loaded #chat .mes.rp-glass-message .avatar img{
  border-radius:16px!important;border:1px solid rgba(184,108,255,.62)!important;
  box-shadow:0 0 0 2px rgba(184,108,255,.08),0 0 18px rgba(157,86,255,.24)!important;
 }
 .rp-glass-loaded #chat .mes.rp-glass-message .name_text{
- color:#ebcfff!important;font-weight:800!important;letter-spacing:.02em!important;
- text-shadow:0 0 8px rgba(184,108,255,.72)!important;
+ color:#ebcfff!important;font-weight:800!important;letter-spacing:.02em!important;text-shadow:0 0 8px rgba(184,108,255,.72)!important;
 }
-.rp-glass-loaded #chat .mes[is_user="true"] .name_text{
- color:#ffd7a5!important;text-shadow:0 0 8px rgba(239,183,108,.48)!important;
-}
+.rp-glass-loaded #chat .mes[is_user="true"] .name_text{color:#ffd7a5!important;text-shadow:0 0 8px rgba(239,183,108,.48)!important}
 
-/* Book body */
 .rp-glass-loaded #chat .mes.rp-glass-message .mes_text{
- color:var(--rpg-text)!important;
- font-family:Georgia,"Times New Roman","Noto Serif",serif!important;
- font-size:1.04em!important;line-height:1.72!important;letter-spacing:.006em!important;
- overflow-wrap:anywhere!important;
+ color:var(--rpg-text)!important;font-family:Georgia,"Times New Roman","Noto Serif",serif!important;
+ font-size:1.04em!important;line-height:1.72!important;letter-spacing:.006em!important;overflow-wrap:anywhere!important;
 }
 .rp-glass-loaded #chat .mes_text p{margin:.68em 0!important;text-indent:1.15em!important}
-.rp-glass-loaded #chat .mes_text details p,
-.rp-glass-loaded #chat .mes_text .rpg-scene-header{text-indent:0!important}
-.rp-glass-loaded #chat .mes_text em,
-.rp-glass-loaded #chat .mes_text i:not(.rpg-stars i){
- color:var(--rpg-green)!important;font-style:italic!important;
- text-shadow:0 0 7px rgba(110,255,150,.25)!important;
+.rp-glass-loaded #chat .mes_text details p,.rp-glass-loaded #chat .mes_text .rpg-scene-header{text-indent:0!important}
+.rp-glass-loaded #chat .mes_text em,.rp-glass-loaded #chat .mes_text i:not(.rpg-stars i){
+ color:var(--rpg-green)!important;font-style:italic!important;text-shadow:0 0 7px rgba(110,255,150,.25)!important;
 }
-.rp-glass-loaded #chat .mes_text b,
-.rp-glass-loaded #chat .mes_text strong{color:#ffe1a8!important}
+.rp-glass-loaded #chat .mes_text b,.rp-glass-loaded #chat .mes_text strong{color:#ffe1a8!important}
 
-/* Scene banner */
 .rp-glass-loaded #chat .mes_text .rpg-scene-header{
- margin:3px 0 16px!important;padding:10px 12px!important;
- border:1px solid rgba(117,234,255,.24)!important;border-left:4px solid var(--rpg-cyan)!important;
- border-radius:14px!important;
+ margin:3px 0 16px!important;padding:10px 12px!important;border:1px solid rgba(117,234,255,.24)!important;
+ border-left:4px solid var(--rpg-cyan)!important;border-radius:14px!important;
  background:linear-gradient(105deg,rgba(62,49,111,.34),rgba(12,22,34,.65))!important;
- color:#eefcff!important;font-family:system-ui,-apple-system,"Segoe UI",sans-serif!important;
- font-size:.79em!important;font-weight:650!important;line-height:1.48!important;
- box-shadow:0 0 18px rgba(70,200,255,.07)!important;
+ color:#eefcff!important;font-family:system-ui,-apple-system,"Segoe UI",sans-serif!important;font-size:.79em!important;
+ font-weight:650!important;line-height:1.48!important;box-shadow:0 0 18px rgba(70,200,255,.07)!important;
 }
 
-/* Meta cards */
 .rp-glass-loaded #chat .mes_text details{
- position:relative!important;overflow:hidden!important;margin:18px 0!important;
- padding:12px 15px!important;border-radius:17px!important;
+ position:relative!important;overflow:hidden!important;margin:14px 0!important;padding:12px 15px!important;border-radius:17px!important;
 }
 
-/* Thoughts + stars */
+/* Thoughts */
 .rp-glass-loaded #chat .mes_text details.rpg-thoughts{
  border:1px solid rgba(190,112,255,.48)!important;border-left:4px solid #c079ff!important;
  background:radial-gradient(circle at 14% 0%,rgba(186,100,255,.16),transparent 30%),
@@ -82,39 +54,80 @@
  box-shadow:inset 0 1px rgba(255,255,255,.035),0 0 22px rgba(166,78,255,.10)!important;
 }
 .rp-glass-loaded #chat .mes_text details.rpg-thoughts>summary{
- position:relative!important;z-index:3!important;color:#e9ccff!important;
- font-family:system-ui,-apple-system,"Segoe UI",sans-serif!important;font-weight:800!important;
+ position:relative!important;z-index:3!important;color:#e9ccff!important;font-family:system-ui,-apple-system,"Segoe UI",sans-serif!important;
+ font-weight:800!important;
 }
 .rpg-stars{position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden}
 .rpg-stars i{position:absolute!important;color:#e9c9ff!important;font-style:normal!important;
- text-shadow:0 0 8px #b86cff,0 0 14px rgba(117,234,255,.35)!important;
- opacity:.18;animation:rpgFloat 7s ease-in-out infinite,rpgTwinkle 2.8s ease-in-out infinite}
-.rpg-stars i:nth-child(1){left:8%;top:22%;font-size:12px;animation-delay:-1s}
-.rpg-stars i:nth-child(2){left:84%;top:16%;font-size:16px;animation-delay:-3.2s}
-.rpg-stars i:nth-child(3){left:72%;top:70%;font-size:11px;animation-delay:-4.5s}
-.rpg-stars i:nth-child(4){left:23%;top:76%;font-size:9px;animation-delay:-2.1s}
-.rpg-stars i:nth-child(5){left:93%;top:54%;font-size:10px;animation-delay:-5.3s}
-.rpg-stars i:nth-child(6){left:48%;top:12%;font-size:8px;animation-delay:-.5s}
+ text-shadow:0 0 8px #b86cff,0 0 14px rgba(117,234,255,.35)!important;opacity:.18;
+ animation:rpgFloat 7s ease-in-out infinite,rpgTwinkle 2.8s ease-in-out infinite}
+.rpg-stars i:nth-child(1){left:8%;top:22%;font-size:12px;animation-delay:-1s}.rpg-stars i:nth-child(2){left:84%;top:16%;font-size:16px;animation-delay:-3.2s}
+.rpg-stars i:nth-child(3){left:72%;top:70%;font-size:11px;animation-delay:-4.5s}.rpg-stars i:nth-child(4){left:23%;top:76%;font-size:9px;animation-delay:-2.1s}
+.rpg-stars i:nth-child(5){left:93%;top:54%;font-size:10px;animation-delay:-5.3s}.rpg-stars i:nth-child(6){left:48%;top:12%;font-size:8px;animation-delay:-.5s}
 @keyframes rpgFloat{0%,100%{transform:translate3d(0,5px,0) rotate(0)}50%{transform:translate3d(5px,-8px,0) rotate(18deg)}}
 @keyframes rpgTwinkle{0%,100%{opacity:.12}50%{opacity:.68}}
 
-/* Reader */
+/* Independent Reader — an old illuminated-book page, not a generic UI card */
 .rp-glass-loaded #chat .mes_text details.rpg-reader{
- border:1px solid rgba(239,183,108,.43)!important;border-left:4px solid var(--rpg-gold)!important;
- background:radial-gradient(circle at 93% 3%,rgba(239,183,108,.10),transparent 30%),
- linear-gradient(140deg,rgba(55,35,46,.48),rgba(13,12,22,.86))!important;
- box-shadow:inset 0 1px rgba(255,255,255,.035),0 0 20px rgba(239,183,108,.07)!important;
- font-family:"Segoe Print","Bradley Hand","Comic Sans MS",system-ui,sans-serif!important;
- font-size:.98em!important;line-height:1.66!important;
+ isolation:isolate!important;border:1px solid rgba(235,177,102,.56)!important;border-left:4px solid #efb76c!important;
+ border-radius:15px!important;padding:14px 17px 15px!important;
+ background:
+   linear-gradient(rgba(16,12,20,.80),rgba(16,12,20,.80)),
+   repeating-linear-gradient(0deg,rgba(235,177,102,.035) 0 1px,transparent 1px 4px)!important;
+ box-shadow:inset 0 0 34px rgba(191,116,45,.075),inset 0 1px rgba(255,238,204,.055),
+            0 0 20px rgba(239,183,108,.075)!important;
+ color:#f3e9dc!important;
+ font-family:Georgia,"Times New Roman","Noto Serif",serif!important;
+ font-size:1.055em!important;line-height:1.72!important;letter-spacing:.008em!important;
+}
+.rp-glass-loaded #chat .mes_text details.rpg-reader::before{
+ content:"❦"!important;position:absolute!important;right:14px!important;top:9px!important;z-index:2!important;
+ color:rgba(255,205,137,.72)!important;font-family:Georgia,serif!important;font-size:1.25em!important;
+ text-shadow:0 0 9px rgba(239,183,108,.28)!important;
 }
 .rp-glass-loaded #chat .mes_text details.rpg-reader>summary{
- color:#ffd9a5!important;font-family:"Segoe Print","Bradley Hand","Comic Sans MS",cursive!important;
- font-size:1.08em!important;font-weight:700!important;
- text-shadow:0 0 8px rgba(239,183,108,.26)!important;
+ position:relative!important;z-index:3!important;color:#ffd79c!important;
+ font-family:"Segoe Print","Bradley Hand","Comic Sans MS",cursive!important;
+ font-size:1.13em!important;font-weight:700!important;line-height:1.45!important;letter-spacing:.015em!important;
+ text-shadow:0 0 8px rgba(239,183,108,.25)!important;
+}
+.rp-glass-loaded #chat .mes_text details.rpg-reader p{
+ position:relative!important;z-index:3!important;margin:.78em 0!important;
+ font-family:Georgia,"Times New Roman","Noto Serif",serif!important;font-size:1em!important;
+}
+.rp-glass-loaded #chat .mes_text details.rpg-reader p:first-of-type::first-letter{
+ float:left!important;margin:.06em .10em 0 0!important;color:#f4bf78!important;
+ font-family:Georgia,"Times New Roman",serif!important;font-size:2.15em!important;line-height:.82!important;
+ text-shadow:0 0 10px rgba(239,183,108,.22)!important;
+}
+.rp-glass-loaded #chat .mes_text details.rpg-reader p:last-of-type{
+ color:#f7dfbd!important;font-style:italic!important;border-top:1px solid rgba(239,183,108,.18)!important;
+ padding-top:.58em!important;
 }
 
-@media(prefers-reduced-motion:reduce){.rpg-stars i{animation:none!important;opacity:.28!important}}
+/* slow moving "shadows" under the reader page */
+.rpg-reader-ambience{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.rpg-reader-ambience i{position:absolute;width:44%;height:140%;top:-20%;border-radius:50%;
+ background:radial-gradient(ellipse,rgba(123,63,143,.10),rgba(0,0,0,0) 68%);
+ filter:blur(12px);opacity:.35;animation:rpgReaderShade 12s ease-in-out infinite}
+.rpg-reader-ambience i:nth-child(1){left:-28%;animation-delay:-2s}
+.rpg-reader-ambience i:nth-child(2){left:32%;width:34%;animation-delay:-7s}
+.rpg-reader-ambience i:nth-child(3){right:-30%;animation-delay:-10s}
+@keyframes rpgReaderShade{0%,100%{transform:translateX(-12%) scale(.92);opacity:.18}50%{transform:translateX(32%) scale(1.08);opacity:.46}}
+
+/* subtle breathing edge */
+.rp-glass-loaded #chat .mes_text details.rpg-reader{
+ animation:rpgReaderEdge 5.5s ease-in-out infinite;
+}
+@keyframes rpgReaderEdge{
+ 0%,100%{border-color:rgba(235,177,102,.43);box-shadow:inset 0 0 34px rgba(191,116,45,.06),0 0 13px rgba(239,183,108,.04)}
+ 50%{border-color:rgba(248,197,127,.68);box-shadow:inset 0 0 38px rgba(191,116,45,.09),0 0 22px rgba(239,183,108,.11)}
+}
+
+@media(prefers-reduced-motion:reduce){.rpg-stars i,.rpg-reader-ambience i,.rp-glass-loaded #chat .mes_text details.rpg-reader{animation:none!important}}
 @media(max-width:700px){
  .rp-glass-loaded #chat .mes.rp-glass-message .mes_text{font-size:1em!important;line-height:1.68!important}
  .rp-glass-loaded #chat .mes_text .rpg-scene-header{font-size:.77em!important;padding:9px 10px!important}
+ .rp-glass-loaded #chat .mes_text details{margin:11px 0!important}
+ .rp-glass-loaded #chat .mes_text details.rpg-reader{font-size:1.035em!important;padding:13px 15px 14px!important}
 }

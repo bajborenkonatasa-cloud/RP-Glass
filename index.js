@@ -1,6 +1,6 @@
 (() => {
 "use strict";
-const VERSION = "0.3.1";
+const VERSION = "0.4.0";
 
 function classify() {
   document.querySelectorAll("#chat .mes").forEach((mes) => {
@@ -19,29 +19,39 @@ function classify() {
         if (!d.querySelector(":scope > .rpg-stars")) {
           const stars = document.createElement("span");
           stars.className = "rpg-stars";
-          stars.setAttribute("aria-hidden", "true");
+          stars.setAttribute("aria-hidden","true");
           stars.innerHTML = "<i>✦</i><i>✧</i><i>⋆</i><i>✦</i><i>✧</i><i>⋆</i>";
           d.prepend(stars);
         }
       }
-      if (/независим|читател|reader/.test(label)) d.classList.add("rpg-reader");
+
+      if (/независим|читател|reader/.test(label)) {
+        d.classList.add("rpg-reader");
+        if (!d.querySelector(":scope > .rpg-reader-ambience")) {
+          const a = document.createElement("span");
+          a.className = "rpg-reader-ambience";
+          a.setAttribute("aria-hidden","true");
+          a.innerHTML = "<i></i><i></i><i></i>";
+          d.prepend(a);
+        }
+      }
     });
   });
 }
 
-function boot() {
+function boot(){
   document.documentElement.classList.add("rp-glass-loaded");
-  const wait = () => {
-    const chat = document.querySelector("#chat");
-    if (!chat) return setTimeout(wait, 400);
+  const wait=()=>{
+    const chat=document.querySelector("#chat");
+    if(!chat) return setTimeout(wait,400);
     classify();
-    new MutationObserver(() => requestAnimationFrame(classify))
-      .observe(chat, { childList:true, subtree:true });
+    new MutationObserver(()=>requestAnimationFrame(classify))
+      .observe(chat,{childList:true,subtree:true});
   };
   wait();
   console.log(`💜 RP Glass v${VERSION} loaded`);
 }
-document.readyState === "loading"
-  ? document.addEventListener("DOMContentLoaded", boot, {once:true})
-  : boot();
+document.readyState==="loading"
+ ? document.addEventListener("DOMContentLoaded",boot,{once:true})
+ : boot();
 })();
