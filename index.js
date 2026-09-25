@@ -1,10 +1,15 @@
 (() => {
 "use strict";
-const VERSION = "0.8.1";
-const RPG_SCRIPT_SRC = document.currentScript && document.currentScript.src ? document.currentScript.src : "";
+const VERSION = "0.8.2";
+function rpgFindScriptSrc(){
+  const scripts=[...document.scripts];
+  const hit=scripts.reverse().find(s=>/RP-Glass\/index\.js(?:\?|$)/i.test(s.src||""));
+  return hit?.src || "";
+}
+const RPG_SCRIPT_SRC = rpgFindScriptSrc();
 const RPG_ASSET_BASE = RPG_SCRIPT_SRC
-  ? new URL("./assets/", RPG_SCRIPT_SRC).href
-  : "/scripts/extensions/third-party/RP-Glass/assets/";
+  ? RPG_SCRIPT_SRC.replace(/index\.js(?:\?.*)?$/i,"assets/")
+  : "./scripts/extensions/third-party/RP-Glass/assets/";
 
 function addParticles(host, cls, glyphs, count){
   if (host.querySelector(`:scope > .${cls}`)) return;
@@ -92,10 +97,27 @@ function ensureMascot(){
   root.id="rpg-hanabi";
   root.className="rpg-hanabi rpg-hanabi-calm";
   root.setAttribute("aria-hidden","true");
-  root.innerHTML=`
-    <div class="rpg-hanabi-aura"></div>
-    <img class="rpg-hanabi-img" alt="" src="${RPG_ASSET_BASE}hanabi-normal.webp">
-    <div class="rpg-hanabi-heart">♡</div>`;
+
+  const aura=document.createElement("div");
+  aura.className="rpg-hanabi-aura";
+  const img=document.createElement("img");
+  img.className="rpg-hanabi-img";
+  img.alt="";
+  img.src=RPG_ASSET_BASE+"hanabi-normal.webp";
+  const fallback=document.createElement("div");
+  fallback.className="rpg-hanabi-fallback";
+  fallback.textContent="Ханаби ♡";
+  const heart=document.createElement("div");
+  heart.className="rpg-hanabi-heart";
+  heart.textContent="♡";
+
+  img.addEventListener("load",()=>root.classList.add("rpg-img-ok"));
+  img.addEventListener("error",()=>{
+    root.classList.add("rpg-img-error");
+    fallback.textContent="Ханаби ♡\\nasset?";
+  });
+
+  root.append(aura,img,fallback,heart);
   document.body.appendChild(root);
   return root;
 }
@@ -182,6 +204,9 @@ function classify(){
 function boot(){
  document.documentElement.classList.add("rp-glass-loaded");
  ensureBootBadge();
+ ensureMascot();
+ ensureMoodHud();
+ setTimeout(updateLivingLayer,250);
  const wait=()=>{
   const chat=document.querySelector("#chat");
   if(!chat)return setTimeout(wait,350);

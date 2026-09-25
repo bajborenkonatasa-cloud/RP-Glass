@@ -1,17 +1,14 @@
-# RP-Glass v0.8.1 — Bootstrap Fix
+# RP-Glass v0.8.2 — Living Layer visibility fix
 
-Root cause fixed:
-v0.8.0 used `import.meta.url` inside a classic SillyTavern extension script.
-That is a JavaScript parse error outside ES modules, so the whole index.js could not start.
+RP✓ in v0.8.1 proved the extension JavaScript is executing.
 
-v0.8.1:
-- removes `import.meta.url`;
-- derives the assets URL from `document.currentScript.src`;
-- adds an obvious `RP✓` boot badge;
-- keeps the v0.6 visual base intact;
-- keeps Hanabi + mood HUD Living Layer.
+This build fixes the next layer:
+- Hanabi and mood HUD are created directly during boot, not only after chat classification.
+- Asset path is discovered from the actual RP-Glass index.js script URL.
+- Hanabi has an unmistakable fallback circle. If the WebP path fails, the circle still appears and says `Ханаби ♡ asset?`.
+- RP✓ remains only as a temporary passive proof marker; it is intentionally not clickable.
 
-Expected test:
-1. RP✓ appears near the upper-right of the Tavern viewport.
-2. Hanabi mascot appears above the input area.
-3. Mood HUD appears above Hanabi.
+Expected:
+- RP✓ upper-right
+- Hanabi circle/portrait lower-right above input
+- mood pill above Hanabi
