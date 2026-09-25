@@ -1,12 +1,12 @@
 (() => {
 "use strict";
-const VERSION="0.9.0";
+const VERSION="0.9.1";
 const scriptSrc=document.currentScript?.src||[...document.scripts].reverse().find(s=>/RP-Glass.*\/index\.js/i.test(s.src||""))?.src||"";
 const ASSET=scriptSrc?scriptSrc.replace(/index\.js(?:\?.*)?$/i,"assets/"):"assets/";
 const MOODS=new Set(["neutral","soft","romantic","dreamy","sad","angry","fear","magic","playful","happy"]);
 const portrait={neutral:"dreamy",soft:"dreamy",romantic:"dreamy",dreamy:"dreamy",magic:"dreamy",sad:"sad",fear:"sad",angry:"angry",playful:"happy",happy:"happy"};
 let lastActivity=Date.now(), lastMood="dreamy", peekTimer=null, runTimer=null;
-function asset(n){return ASSET+n+"?v=090"}
+function asset(n){return ASSET+n+"?v=091"}
 function particles(host,cls,glyphs,count){if(host.querySelector(`:scope > .${cls}`))return;const b=document.createElement("span");b.className=cls;b.setAttribute("aria-hidden","true");for(let i=0;i<count;i++){const s=document.createElement("i");s.textContent=glyphs[i%glyphs.length];s.style.setProperty("--i",i);b.appendChild(s)}host.prepend(b)}
 function semanticPass(text){
  const rx=/\[\[(speaker|mood|thought):([^\]]+)\]\]/gi; let speaker="",mood="",thought="";
@@ -51,6 +51,40 @@ function placeInputChibi(){const r=shell(),img=r.querySelector(".rpg-chibi-input
 function showPeek(){clearTimeout(peekTimer);const p=shell().querySelector(".rpg-chibi-peek");p.classList.add("show");peekTimer=setTimeout(()=>p.classList.remove("show"),5200)}
 function runAcross(){const r=shell(),run=r.querySelector(".rpg-chibi-run");if(Date.now()-lastActivity>70000)return;run.classList.remove("go");void run.offsetWidth;run.classList.add("go");setTimeout(()=>run.classList.remove("go"),6500)}
 function idle(){const r=shell();const sleepy=Date.now()-lastActivity>90000;r.classList.toggle("is-sleeping",sleepy)}
-function boot(){document.documentElement.classList.add("rp-glass-loaded");shell();placeInputChibi();classify();const attach=()=>{const chat=document.querySelector("#chat");if(!chat)return setTimeout(attach,350);if(chat.dataset.rpg9!=="1"){chat.dataset.rpg9="1";new MutationObserver(()=>requestAnimationFrame(classify)).observe(chat,{childList:true,subtree:true})}};attach();["pointerdown","keydown","input","touchstart"].forEach(e=>document.addEventListener(e,()=>{lastActivity=Date.now();shell().classList.remove("is-sleeping")},{passive:true}));addEventListener("resize",placeInputChibi,{passive:true});addEventListener("scroll",placeInputChibi,{passive:true});setInterval(()=>{placeInputChibi();idle()},2500);runTimer=setInterval(runAcross,42000);setTimeout(runAcross,12000);console.log(`💜 RP Glass v${VERSION} — Hanabi Living UI loaded`)}
+function boot(){
+ document.documentElement.classList.add("rp-glass-loaded");
+ shell(); placeInputChibi(); classify();
+ let obs=null, queued=false;
+ const attach=()=>{
+   const chat=document.querySelector("#chat"); if(!chat)return setTimeout(attach,350);
+   if(chat.dataset.rpg91==="1")return;
+   chat.dataset.rpg91="1";
+   const run=()=>{
+     queued=false;
+     obs?.disconnect();
+     try{classify();}finally{obs?.observe(chat,{childList:true,subtree:true});}
+   };
+   obs=new MutationObserver((records)=>{
+     // Ignore mutations created only by RP-Glass decorations.
+     const relevant=records.some(r=>[...r.addedNodes,...r.removedNodes].some(n=>{
+       if(n.nodeType!==1)return true;
+       return !(n.matches?.('.rpg-stars,.rpg-reader-ambience,.rpg-reader-dust,.rpg-header-sparkles,.rpg-fx') || n.closest?.('#rpg-hanabi-layer'));
+     }));
+     if(!relevant||queued)return;
+     queued=true; setTimeout(run,120);
+   });
+   obs.observe(chat,{childList:true,subtree:true});
+ };
+ attach();
+ const activity=()=>{lastActivity=Date.now();shell().classList.remove("is-sleeping")};
+ ["pointerdown","keydown","input","touchstart"].forEach(e=>document.addEventListener(e,activity,{passive:true}));
+ let posQueued=false;
+ const queuePlace=()=>{if(posQueued)return;posQueued=true;requestAnimationFrame(()=>{posQueued=false;placeInputChibi()})};
+ addEventListener("resize",queuePlace,{passive:true});
+ // Do not recalculate mascot position on every chat scroll: input is fixed at the bottom.
+ setInterval(()=>{idle()},5000);
+ runTimer=setInterval(runAcross,60000); setTimeout(runAcross,15000);
+ console.log(`💜 RP Glass v${VERSION} — Hanabi Living UI loaded`)
+}
 if(document.body)boot();else addEventListener("DOMContentLoaded",boot,{once:true});
 })();
