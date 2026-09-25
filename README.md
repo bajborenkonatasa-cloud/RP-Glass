@@ -1,14 +1,15 @@
-# RP-Glass v0.8.2 — Living Layer visibility fix
+# RP-Glass v0.8.3 — Fail-Loud Living Canary
 
-RP✓ in v0.8.1 proved the extension JavaScript is executing.
+RP✓ already proved index.js executes.
 
-This build fixes the next layer:
-- Hanabi and mood HUD are created directly during boot, not only after chat classification.
-- Asset path is discovered from the actual RP-Glass index.js script URL.
-- Hanabi has an unmistakable fallback circle. If the WebP path fails, the circle still appears and says `Ханаби ♡ asset?`.
-- RP✓ remains only as a temporary passive proof marker; it is intentionally not clickable.
+This build creates the Hanabi dock immediately after RP✓ with inline styles,
+before any chat/mood logic. It cannot be hidden by RP-Glass CSS.
 
 Expected:
-- RP✓ upper-right
-- Hanabi circle/portrait lower-right above input
-- mood pill above Hanabi
+- RP✓
+- 104px Hanabi dock above the input
+- mood pill `✦ спокойствие`
+- if the image URL fails, the dock visibly says `ХАНАБИ ♡ asset не найден`
+- if DOM creation throws, a red `RP ERR:` panel appears
+
+The rest of the known-working v0.6 styling remains intact.
