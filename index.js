@@ -1,7 +1,9 @@
 (() => {
 "use strict";
-const VERSION = "0.8.3";
+const VERSION = "0.8.4";
 function rpgFindScriptSrc(){
+  const current=document.currentScript?.src || "";
+  if(current) return current;
   const scripts=[...document.scripts];
   const hit=scripts.reverse().find(s=>/RP-Glass\/index\.js(?:\?|$)/i.test(s.src||""));
   return hit?.src || "";
@@ -9,7 +11,7 @@ function rpgFindScriptSrc(){
 const RPG_SCRIPT_SRC = rpgFindScriptSrc();
 const RPG_ASSET_BASE = RPG_SCRIPT_SRC
   ? RPG_SCRIPT_SRC.replace(/index\.js(?:\?.*)?$/i,"assets/")
-  : "./scripts/extensions/third-party/RP-Glass/assets/";
+  : "assets/";
 
 function addParticles(host, cls, glyphs, count){
   if (host.querySelector(`:scope > .${cls}`)) return;
@@ -179,10 +181,11 @@ function classify(){
     if(!text) return;
     semanticPass(text);
 
-    const h1=text.querySelector(":scope > h1");
-    if(h1 && /📅|🕒|📍|🌫/.test(h1.textContent||"")){
-      h1.classList.add("rpg-scene-header");
-      addParticles(h1,"rpg-header-sparkles",["✦","✧"],5);
+    const candidates=[...text.querySelectorAll(":scope > h1, :scope > h2, :scope > h3, :scope > p, :scope > blockquote")];
+    const scene=candidates.find(el=>/📅|🕒|📍|🌫/.test(el.textContent||""));
+    if(scene){
+      scene.classList.add("rpg-scene-header");
+      addParticles(scene,"rpg-header-sparkles",["✦","✧"],5);
     }
 
     text.querySelectorAll("details").forEach(d=>{
@@ -202,53 +205,46 @@ function classify(){
 }
 
 function boot(){
- document.documentElement.classList.add("rp-glass-loaded");
- ensureBootBadge();
+  // Version-stamped proof: always replace old badge so stale DOM cannot fool us.
+  document.documentElement.classList.add("rp-glass-loaded");
+  let badge=document.getElementById("rpg-boot-badge");
+  if(!badge){
+    badge=document.createElement("div");
+    badge.id="rpg-boot-badge";
+    document.body.appendChild(badge);
+  }
+  badge.textContent="RP 0.8.4 ✓";
+  badge.title="RP-Glass v0.8.4 is running";
 
- // FAIL-LOUD canary: this must render if execution continues past RP✓.
- try{
-   let canary=document.getElementById("rpg-living-canary");
-   if(!canary){
-     canary=document.createElement("div");
-     canary.id="rpg-living-canary";
-     canary.style.cssText="position:fixed;right:10px;bottom:120px;width:104px;height:104px;z-index:2147483646;border-radius:24px;border:2px solid #ef7cff;background:#170a22;box-shadow:0 0 24px #c04dff;color:white;display:flex;align-items:center;justify-content:center;text-align:center;font:800 12px/1.15 system-ui;pointer-events:none;overflow:hidden;";
-     canary.innerHTML='<span id="rpg-canary-text">ХАНАБИ<br>загрузка…</span>';
-     document.body.appendChild(canary);
+  // Create living layer immediately; it must not depend on #chat existing yet.
+  try{
+    ensureMascot();
+    ensureMoodHud();
+    updateLivingLayer();
+  }catch(err){
+    console.error("RP-Glass living layer:",err);
+    badge.textContent="RP 0.8.4 ERR";
+  }
 
-     const img=document.createElement("img");
-     img.alt="";
-     img.style.cssText="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 24%;display:none;";
-     img.onload=()=>{img.style.display="block"; document.getElementById("rpg-canary-text")?.remove();};
-     img.onerror=()=>{const t=document.getElementById("rpg-canary-text"); if(t)t.innerHTML="ХАНАБИ ♡<br>asset не найден";};
-     img.src="/scripts/extensions/third-party/RP-Glass/assets/hanabi-normal.webp?v=083";
-     canary.appendChild(img);
-   }
-
-   let mh=document.getElementById("rpg-canary-mood");
-   if(!mh){
-     mh=document.createElement("div");
-     mh.id="rpg-canary-mood";
-     mh.textContent="✦ спокойствие";
-     mh.style.cssText="position:fixed;right:10px;bottom:232px;z-index:2147483646;padding:6px 10px;border:1px solid #d875ff;border-radius:999px;background:#13091dcc;color:#fff;font:700 11px system-ui;box-shadow:0 0 14px #a94cff88;pointer-events:none;";
-     document.body.appendChild(mh);
-   }
- }catch(err){
-   const e=document.createElement("div");
-   e.id="rpg-boot-error";
-   e.textContent="RP ERR: "+(err?.message||String(err));
-   e.style.cssText="position:fixed;left:8px;right:8px;bottom:90px;z-index:2147483647;padding:9px;background:#3b0710;color:#fff;border:2px solid #ff4d6d;border-radius:10px;font:12px monospace;pointer-events:none;";
-   document.body.appendChild(e);
- }
-
- // Existing RP-Glass styling/classification remains untouched.
- const wait=()=>{
-  const chat=document.querySelector("#chat");
-  if(!chat)return setTimeout(wait,350);
-  try{ classify(); }catch(e){ console.error("RP-Glass classify",e); }
-  new MutationObserver(()=>requestAnimationFrame(()=>{try{classify()}catch(e){console.error(e)}})).observe(chat,{childList:true,subtree:true});
- };
- wait();
- console.log(`💜 RP Glass v${VERSION} loaded`);
+  const attach=()=>{
+    const chat=document.querySelector("#chat");
+    if(!chat){ setTimeout(attach,350); return; }
+    try{ classify(); }catch(e){ console.error("RP-Glass classify:",e); }
+    if(chat.dataset.rpgObserver!=="1"){
+      chat.dataset.rpgObserver="1";
+      new MutationObserver(()=>requestAnimationFrame(()=>{
+        try{ classify(); }catch(e){ console.error("RP-Glass observer:",e); }
+      })).observe(chat,{childList:true,subtree:true});
+    }
+  };
+  attach();
+  console.log(`💜 RP Glass v${VERSION} loaded; assets: ${RPG_ASSET_BASE}`);
 }
-document.readyState==="loading"?document.addEventListener("DOMContentLoaded",boot,{once:true}):boot();
+
+// SillyTavern user extensions may be injected after DOMContentLoaded.
+// Run immediately when body exists; otherwise wait only for DOM creation.
+if(document.body) boot();
+else document.addEventListener("DOMContentLoaded",boot,{once:true});
+
+
 })();
