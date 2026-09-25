@@ -1,7 +1,6 @@
 (() => {
 "use strict";
-
-const VERSION = "0.3.0";
+const VERSION = "0.3.1";
 
 function classify() {
   document.querySelectorAll("#chat .mes").forEach((mes) => {
@@ -13,8 +12,7 @@ function classify() {
     if (h1 && /📅|🕒|📍|🌫/.test(h1.textContent || "")) h1.classList.add("rpg-scene-header");
 
     text.querySelectorAll("details").forEach((d) => {
-      const s = d.querySelector("summary");
-      const label = (s?.textContent || "").toLowerCase();
+      const label = (d.querySelector("summary")?.textContent || "").toLowerCase();
 
       if (/мысл|thought|распаковать/.test(label)) {
         d.classList.add("rpg-thoughts");
@@ -26,7 +24,6 @@ function classify() {
           d.prepend(stars);
         }
       }
-
       if (/независим|читател|reader/.test(label)) d.classList.add("rpg-reader");
     });
   });
@@ -39,12 +36,11 @@ function boot() {
     if (!chat) return setTimeout(wait, 400);
     classify();
     new MutationObserver(() => requestAnimationFrame(classify))
-      .observe(chat, {childList:true, subtree:true});
+      .observe(chat, { childList:true, subtree:true });
   };
   wait();
   console.log(`💜 RP Glass v${VERSION} loaded`);
 }
-
 document.readyState === "loading"
   ? document.addEventListener("DOMContentLoaded", boot, {once:true})
   : boot();
