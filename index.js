@@ -1,6 +1,6 @@
 (() => {
 "use strict";
-const VERSION = "0.8.4";
+const VERSION = "0.8.5";
 function rpgFindScriptSrc(){
   const current=document.currentScript?.src || "";
   if(current) return current;
@@ -93,44 +93,33 @@ function ensureBootBadge(){
 }
 
 function ensureMascot(){
-  let root=document.getElementById("rpg-hanabi");
-  if(root) return root;
+  let root=document.getElementById("rpg85-hanabi");
+  if(root && root.isConnected) return root;
   root=document.createElement("div");
-  root.id="rpg-hanabi";
-  root.className="rpg-hanabi rpg-hanabi-calm";
+  root.id="rpg85-hanabi";
   root.setAttribute("aria-hidden","true");
-
-  const aura=document.createElement("div");
-  aura.className="rpg-hanabi-aura";
-  const img=document.createElement("img");
-  img.className="rpg-hanabi-img";
-  img.alt="";
-  img.src=RPG_ASSET_BASE+"hanabi-normal.webp";
-  const fallback=document.createElement("div");
-  fallback.className="rpg-hanabi-fallback";
-  fallback.textContent="Ханаби ♡";
-  const heart=document.createElement("div");
-  heart.className="rpg-hanabi-heart";
-  heart.textContent="♡";
-
-  img.addEventListener("load",()=>root.classList.add("rpg-img-ok"));
-  img.addEventListener("error",()=>{
-    root.classList.add("rpg-img-error");
-    fallback.textContent="Ханаби ♡\\nasset?";
-  });
-
-  root.append(aura,img,fallback,heart);
-  document.body.appendChild(root);
+  root.innerHTML='<div class="rpg85-aura"></div><img class="rpg85-img" alt=""><div class="rpg85-fallback">Ханаби ♡</div><div class="rpg85-heart">♡</div>';
+  // Inline shell styles make the layer independent from theme/CSS conflicts.
+  root.style.cssText="position:fixed!important;right:9px!important;bottom:112px!important;width:94px!important;height:94px!important;z-index:2147483645!important;display:block!important;visibility:visible!important;opacity:1!important;pointer-events:none!important;border-radius:50%!important;background:#18091f!important;border:2px solid #e16fff!important;box-shadow:0 0 18px #bc4cff,0 0 34px #bc4cff55!important;overflow:visible!important;";
+  const img=root.querySelector(".rpg85-img");
+  img.style.cssText="position:absolute!important;inset:3px!important;width:88px!important;height:88px!important;border-radius:50%!important;object-fit:cover!important;object-position:50% 24%!important;display:none!important;";
+  const fb=root.querySelector(".rpg85-fallback");
+  fb.style.cssText="position:absolute!important;inset:5px!important;display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;color:white!important;font:800 12px system-ui!important;text-shadow:0 0 8px #e16fff!important;";
+  img.onload=()=>{img.style.setProperty("display","block","important");fb.style.setProperty("display","none","important");};
+  img.onerror=()=>{fb.textContent="Ханаби ♡\nasset?";};
+  img.src=RPG_ASSET_BASE+"hanabi-normal.webp?v=085";
+  document.documentElement.appendChild(root);
   return root;
 }
 
 function ensureMoodHud(){
-  let hud=document.getElementById("rpg-mood-hud");
-  if(hud) return hud;
+  let hud=document.getElementById("rpg85-mood-hud");
+  if(hud && hud.isConnected) return hud;
   hud=document.createElement("div");
-  hud.id="rpg-mood-hud";
-  hud.innerHTML=`<span class="rpg-mood-icon">✦</span><span class="rpg-mood-label">спокойствие</span>`;
-  document.body.appendChild(hud);
+  hud.id="rpg85-mood-hud";
+  hud.innerHTML='<span class="rpg-mood-icon">✦</span> <span class="rpg-mood-label">спокойствие</span>';
+  hud.style.cssText="position:fixed!important;right:9px!important;bottom:214px!important;z-index:2147483644!important;display:block!important;visibility:visible!important;opacity:1!important;pointer-events:none!important;padding:6px 10px!important;border:1px solid #d875ff!important;border-radius:999px!important;background:#13091dee!important;color:#fff!important;font:700 10px system-ui!important;box-shadow:0 0 14px #a94cff88!important;";
+  document.documentElement.appendChild(hud);
   return hud;
 }
 
@@ -213,8 +202,8 @@ function boot(){
     badge.id="rpg-boot-badge";
     document.body.appendChild(badge);
   }
-  badge.textContent="RP 0.8.4 ✓";
-  badge.title="RP-Glass v0.8.4 is running";
+  badge.textContent="RP 0.8.5 ✓";
+  badge.title="RP-Glass v0.8.5 is running";
 
   // Create living layer immediately; it must not depend on #chat existing yet.
   try{
@@ -238,6 +227,11 @@ function boot(){
     }
   };
   attach();
+  // ST can rebuild parts of its UI; keep the living overlay attached.
+  setInterval(()=>{
+    try{ ensureMascot(); ensureMoodHud(); updateLivingLayer(); }
+    catch(e){ console.error("RP-Glass watchdog:",e); }
+  },2000);
   console.log(`💜 RP Glass v${VERSION} loaded; assets: ${RPG_ASSET_BASE}`);
 }
 
