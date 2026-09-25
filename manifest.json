@@ -1,11 +1,11 @@
 {
-    "display_name": "RP Glass",
-    "loading_order": 100,
-    "requires": [],
-    "optional": [],
-    "js": "index.js",
-    "css": "style.css",
-    "author": "bajborenkonatasa-cloud",
-    "version": "0.8.5",
-    "homePage": "https://github.com/bajborenkonatasa-cloud/RP-Glass"
+  "display_name": "RP Glass — Hanabi Living UI",
+  "loading_order": 100,
+  "requires": [],
+  "optional": [],
+  "js": "index.js",
+  "css": "style.css",
+  "author": "bajborenkonatasa-cloud",
+  "version": "0.9.0",
+  "homePage": "https://github.com/bajborenkonatasa-cloud/RP-Glass"
 }

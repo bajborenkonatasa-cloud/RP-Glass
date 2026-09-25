@@ -1,9 +1,7 @@
-# RP-Glass v0.8.5 — Persistent Living Layer
+# RP Glass v0.9.0 — Hanabi Living UI
 
-Built from the exact installed RP-Glass archive supplied by the user.
+Внутри уже лежат 8 локальных WebP-ассетов Ханаби: 4 эмоции + 4 chibi. Никаких внешних ссылок.
 
-- Version proof: RP 0.8.5 ✓
-- Hanabi uses unique v0.8.5 DOM IDs and an inline-styled fixed overlay.
-- Overlay is attached to documentElement, independent of chat/card CSS.
-- A watchdog restores Hanabi + mood HUD if SillyTavern rebuilds UI.
-- Existing theme, scene styling, thoughts, Reader, assets are preserved.
+Поведение: портрет автоматически меняется по `[[mood:...]]` (приоритетно) или по тексту последнего сообщения; chibi сидит над полем ввода; после бездействия появляется спящая; бегущая периодически пробегает по нижней части интерфейса; выглядывающая кратко появляется справа при смене настроения/новой сцене. Все слои `pointer-events:none` и имеют отдельные мобильные размеры.
+
+Поддерживаемые метки: `[[mood:dreamy]]`, `[[mood:angry]]`, `[[mood:sad]]`, `[[mood:happy]]`, а также soft/romantic/fear/magic/playful. Метки скрываются из текста. `[[speaker:Имя]]` оформляет следующий диалог. Метки не обязательны: есть резервное распознавание по словам.

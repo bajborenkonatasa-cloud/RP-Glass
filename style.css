@@ -68,6 +68,13 @@
  box-shadow:inset 0 0 18px rgba(95,224,255,.05),0 0 14px rgba(81,224,255,.15),0 0 26px rgba(170,79,255,.08)!important;
  text-shadow:0 0 8px rgba(174,237,255,.24)!important;
 }
+/* Meta row: the same scene-header box, but docked under the name/timestamp
+   instead of floating inside the story paragraphs. */
+.rp-glass-loaded #chat .mes.rp-glass-message .ch_name{margin-bottom:2px!important}
+.rp-glass-loaded #chat .mes.rp-glass-message .rpg-meta-row{
+ display:block!important;margin:3px 0 12px!important;text-indent:0!important;
+ font-size:.8em!important;line-height:1.5!important;
+}
 .rpg-header-sparkles{position:absolute;inset:0;pointer-events:none}
 .rpg-header-sparkles i{position:absolute;color:#dba2ff;font-style:normal!important;text-shadow:0 0 8px #d36cff,0 0 15px #70ecff;animation:rpgHeaderTwinkle 2.6s ease-in-out infinite}
 .rpg-header-sparkles i:nth-child(1){right:5%;top:15%;font-size:13px}.rpg-header-sparkles i:nth-child(2){right:13%;bottom:12%;font-size:9px;animation-delay:-.8s}
@@ -262,121 +269,26 @@
 }
 
 
-/* ===== RP-Glass v0.8 Living Layer — mobile first ===== */
-#rpg-hanabi{
- --rpg-mood:#d873ff;
- position:fixed!important;
- right:max(7px,env(safe-area-inset-right))!important;
- bottom:118px!important;
- width:88px!important;height:88px!important;
- z-index:9996!important;
- pointer-events:none!important;
- filter:drop-shadow(0 0 12px color-mix(in srgb,var(--rpg-mood) 65%,transparent))!important;
- animation:rpgHanabiFloat 4.8s ease-in-out infinite!important;
-}
-#rpg-hanabi .rpg-hanabi-img{
- position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
- object-fit:cover!important;object-position:50% 22%!important;
- border-radius:50%!important;
- border:2px solid color-mix(in srgb,var(--rpg-mood) 78%,white 22%)!important;
- box-shadow:inset 0 0 16px rgba(255,255,255,.12),0 0 20px color-mix(in srgb,var(--rpg-mood) 48%,transparent)!important;
-}
-#rpg-hanabi .rpg-hanabi-aura{
- position:absolute!important;inset:-8px!important;border-radius:50%!important;
- background:radial-gradient(circle,transparent 52%,color-mix(in srgb,var(--rpg-mood) 32%,transparent) 67%,transparent 74%)!important;
- animation:rpgAura 2.8s ease-in-out infinite!important;
-}
-#rpg-hanabi .rpg-hanabi-heart{
- position:absolute!important;right:-2px!important;top:-13px!important;
- color:var(--rpg-mood)!important;font-size:25px!important;font-weight:900!important;
- text-shadow:0 0 10px var(--rpg-mood)!important;
- animation:rpgHeart 2.1s ease-in-out infinite!important;
-}
-#rpg-hanabi[data-mood="romantic"],#rpg-mood-hud[data-mood="romantic"]{--rpg-mood:#ff66c9}
-#rpg-hanabi[data-mood="angry"],#rpg-mood-hud[data-mood="angry"]{--rpg-mood:#ff514d}
-#rpg-hanabi[data-mood="fear"],#rpg-mood-hud[data-mood="fear"]{--rpg-mood:#75e8ff}
-#rpg-hanabi[data-mood="sad"],#rpg-mood-hud[data-mood="sad"]{--rpg-mood:#a78cff}
-#rpg-hanabi[data-mood="magic"],#rpg-mood-hud[data-mood="magic"]{--rpg-mood:#d56cff}
-#rpg-hanabi[data-mood="dreamy"],#rpg-mood-hud[data-mood="dreamy"]{--rpg-mood:#ef8dff}
-#rpg-hanabi[data-mood="playful"],#rpg-mood-hud[data-mood="playful"]{--rpg-mood:#ff84dc}
 
-#rpg-mood-hud{
- --rpg-mood:#b978ff;
- position:fixed!important;
- right:8px!important;bottom:207px!important;
- z-index:9995!important;pointer-events:none!important;
- display:flex!important;align-items:center!important;gap:5px!important;
- max-width:132px!important;padding:5px 8px!important;
- border:1px solid color-mix(in srgb,var(--rpg-mood) 70%,transparent)!important;
- border-radius:999px!important;
- background:rgba(10,7,20,.82)!important;
- backdrop-filter:blur(8px)!important;
- color:#fff!important;font:600 10px/1.15 system-ui,sans-serif!important;
- box-shadow:0 0 14px color-mix(in srgb,var(--rpg-mood) 25%,transparent)!important;
-}
-#rpg-mood-hud .rpg-mood-icon{color:var(--rpg-mood)!important;text-shadow:0 0 7px var(--rpg-mood)!important}
-
-@keyframes rpgHanabiFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-5px) rotate(1deg)}}
-@keyframes rpgAura{0%,100%{opacity:.55;transform:scale(.96)}50%{opacity:1;transform:scale(1.05)}}
-@keyframes rpgHeart{0%,100%{transform:translateY(0) scale(.9);opacity:.7}50%{transform:translateY(-5px) scale(1.08);opacity:1}}
-
-@media(min-width:760px){
- #rpg-hanabi{width:112px!important;height:112px!important;bottom:100px!important;right:18px!important}
- #rpg-mood-hud{bottom:218px!important;right:18px!important}
-}
-@media(prefers-reduced-motion:reduce){
- #rpg-hanabi,#rpg-hanabi *{animation:none!important}
-}
-
-/* v0.8.1 bootstrap proof: if JS executes, this RP✓ badge MUST be visible. */
-#rpg-boot-badge{
- position:fixed!important;
- top:112px!important;right:8px!important;
- z-index:2147483647!important;
- padding:4px 7px!important;
- border:1px solid #ef8cff!important;
- border-radius:9px!important;
- background:rgba(24,7,34,.94)!important;
- color:#fff!important;
- font:800 11px/1 system-ui,sans-serif!important;
- letter-spacing:.3px!important;
- box-shadow:0 0 13px rgba(221,91,255,.7)!important;
- pointer-events:none!important;
-}
-
-/* === v0.8.2: unmistakable Living Layer ================================= */
-#rpg-boot-badge{pointer-events:none!important;opacity:.72!important}
-#rpg-hanabi{
- display:block!important;
- position:fixed!important;
- right:10px!important;
- bottom:118px!important;
- width:96px!important;height:96px!important;
- z-index:2147483600!important;
- opacity:1!important;visibility:visible!important;
- pointer-events:none!important;
- border-radius:50%!important;
- background:radial-gradient(circle at 45% 38%,rgba(113,40,143,.96),rgba(16,7,28,.97) 72%)!important;
- border:2px solid #e16fff!important;
- box-shadow:0 0 18px #bc4cff,0 0 38px rgba(188,76,255,.32)!important;
- overflow:visible!important;
-}
-#rpg-hanabi .rpg-hanabi-img{
- display:block!important;position:absolute!important;inset:3px!important;
- width:calc(100% - 6px)!important;height:calc(100% - 6px)!important;
- border-radius:50%!important;object-fit:cover!important;object-position:50% 24%!important;
- opacity:0!important;visibility:hidden!important;
-}
-#rpg-hanabi.rpg-img-ok .rpg-hanabi-img{opacity:1!important;visibility:visible!important}
-#rpg-hanabi .rpg-hanabi-fallback{
- display:flex!important;position:absolute!important;inset:5px!important;
- align-items:center!important;justify-content:center!important;text-align:center!important;
- white-space:pre-line!important;color:#fff!important;font:800 13px/1.1 system-ui,sans-serif!important;
- text-shadow:0 0 8px #e16fff!important;
-}
-#rpg-hanabi.rpg-img-ok .rpg-hanabi-fallback{display:none!important}
-#rpg-mood-hud{
- display:flex!important;visibility:visible!important;opacity:1!important;
- position:fixed!important;right:8px!important;bottom:220px!important;
- z-index:2147483599!important;
-}
+/* ===== RP-Glass v0.9 — HANABI LIVING UI =============================== */
+#rpg-hanabi-layer{--hm:#d77cff;position:fixed!important;inset:0!important;z-index:2147483000!important;pointer-events:none!important;overflow:hidden!important}
+#rpg-hanabi-layer[data-mood="angry"]{--hm:#ff5369}#rpg-hanabi-layer[data-mood="sad"]{--hm:#829cff}#rpg-hanabi-layer[data-mood="happy"]{--hm:#ff86dc}
+.rpg-hanabi-portrait{position:absolute;right:max(5px,env(safe-area-inset-right));top:88px;width:92px;height:118px;opacity:.94;filter:drop-shadow(0 0 11px color-mix(in srgb,var(--hm) 55%,transparent));animation:rpgPortraitFloat 5s ease-in-out infinite}
+.rpg-hanabi-portrait img{width:100%;height:100%;object-fit:contain;object-position:center bottom;position:relative;z-index:2}
+.rpg-hanabi-glow{position:absolute;inset:18% 5% 2%;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--hm) 22%,transparent),transparent 67%);filter:blur(8px);animation:rpgGlow 2.8s ease-in-out infinite}
+.rpg-chibi{position:absolute!important;display:block!important;object-fit:contain!important;filter:drop-shadow(0 0 9px rgba(205,99,255,.5));transition:opacity .35s ease,transform .35s ease}
+.rpg-chibi-input{width:108px!important;height:72px!important;z-index:5!important;opacity:1}
+.rpg-chibi-run{width:128px!important;height:86px!important;left:-150px;bottom:84px;opacity:0}
+.rpg-chibi-run.go{opacity:1;animation:rpgRunAcross 6.2s linear both}
+.rpg-chibi-sleep{width:148px!important;height:80px!important;right:9px;bottom:67px;opacity:0;transform:translateY(10px)}
+.rpg-chibi-peek{width:102px!important;height:142px!important;right:-48px;top:38%;opacity:0;transform:translateX(26px)}
+.rpg-chibi-peek.show{opacity:1;transform:translateX(0);animation:rpgPeek 5.2s ease both}
+#rpg-hanabi-layer.is-sleeping .rpg-chibi-input{opacity:0;transform:translateY(8px)}#rpg-hanabi-layer.is-sleeping .rpg-chibi-sleep{opacity:1;transform:none}
+.rpg-fx{position:absolute;right:2px;top:76px;width:125px;height:145px}.rpg-fx i{position:absolute;color:var(--hm);font-style:normal!important;text-shadow:0 0 8px var(--hm);animation:rpgFx 3.6s ease-in-out infinite}.rpg-fx i:nth-child(1){left:8%;top:18%}.rpg-fx i:nth-child(2){right:8%;top:8%;animation-delay:-.8s}.rpg-fx i:nth-child(3){left:15%;bottom:15%;animation-delay:-1.6s}.rpg-fx i:nth-child(4){right:4%;bottom:28%;animation-delay:-2.4s}.rpg-fx i:nth-child(5){left:45%;top:2%;animation-delay:-1.2s}.rpg-fx i:nth-child(n+6){display:none}
+@keyframes rpgPortraitFloat{50%{transform:translateY(-5px) rotate(1deg)}}@keyframes rpgGlow{50%{opacity:.5;transform:scale(1.08)}}@keyframes rpgFx{0%,100%{opacity:.15;transform:translateY(5px) scale(.8)}50%{opacity:.9;transform:translateY(-8px) scale(1.12)}}
+@keyframes rpgRunAcross{0%{left:-150px;transform:translateY(0)}20%{transform:translateY(-5px)}100%{left:calc(100vw + 30px);transform:translateY(0)}}
+@keyframes rpgPeek{0%{right:-72px;opacity:0}14%,82%{right:-38px;opacity:1}100%{right:-72px;opacity:0}}
+/* mobile: keep Hanabi out of the reading column as much as possible */
+@media(max-width:700px){.rpg-hanabi-portrait{top:78px;width:76px;height:98px;right:2px;opacity:.9}.rpg-fx{top:69px;width:94px;height:112px}.rpg-chibi-input{width:94px!important;height:64px!important}.rpg-chibi-run{width:110px!important;height:74px!important;bottom:78px}.rpg-chibi-sleep{width:128px!important;height:70px!important;bottom:62px}.rpg-chibi-peek{width:88px!important;height:126px!important;right:-43px}.rpg-chibi-peek.show{transform:translateX(0)}}
+@media(min-width:900px){.rpg-hanabi-portrait{width:118px;height:150px;right:16px;top:100px}.rpg-fx{right:10px;top:90px;width:155px;height:170px}.rpg-chibi-input{width:128px!important;height:84px!important}.rpg-chibi-peek{width:122px!important;height:170px!important}}
+@media(prefers-reduced-motion:reduce){#rpg-hanabi-layer *{animation:none!important}.rpg-chibi-run{display:none!important}}
