@@ -1,6 +1,6 @@
 (() => {
 "use strict";
-const VERSION = "0.6.0";
+const VERSION = "0.7.0";
 
 function addParticles(host, cls, glyphs, count){
   if (host.querySelector(`:scope > .${cls}`)) return;
@@ -66,6 +66,39 @@ function semanticPass(text){
   });
 
   text.dataset.rpgSemanticDone="1";
+}
+
+
+/* v0.7: compact the real SillyTavern header only when it is safe to do so.
+   We move existing DOM nodes; we do not clone/delete controls. */
+function compactHeader(mes){
+  if(!mes || mes.dataset.rpgHeaderV7==="1") return;
+  const avatar=mes.querySelector(":scope > .avatar, :scope > .mesAvatarWrapper .avatar, .avatar");
+  const header=mes.querySelector(".mes_header");
+  const text=mes.querySelector(".mes_text");
+  if(!avatar || !header || !text) return;
+
+  const block=header.closest(".mes_block") || text.closest(".mes_block");
+  if(!block) return;
+
+  // Make a dedicated compact row before story text.
+  let row=block.querySelector(":scope > .rpg-compact-head");
+  if(!row){
+    row=document.createElement("div");
+    row.className="rpg-compact-head";
+    block.insertBefore(row, block.firstChild);
+  }
+
+  // Move the original avatar and original header into one row.
+  // SillyTavern event handlers remain attached because nodes are moved, not recreated.
+  row.appendChild(avatar);
+  row.appendChild(header);
+  mes.classList.add("rpg-header-compact");
+  mes.dataset.rpgHeaderV7="1";
+}
+
+function compactAllHeaders(){
+  document.querySelectorAll("#chat .mes").forEach(compactHeader);
 }
 
 function classify(){

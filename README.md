@@ -1,15 +1,10 @@
-# RP Glass v0.6.0
+# RP Glass v0.7.0
 
-## What changed
-- Independent Reader left edge corrected on mobile; it remains deliberately wide.
-- Adds the first real RP-Glass semantic engine.
-- Optional hidden-on-render metadata:
-  `[[speaker:Xaden]][[mood:angry]]`
-- Supported moods:
-  neutral, soft, romantic, dreamy, sad, angry, fear, magic, playful.
-- Speaker/mood markers decorate the associated story paragraph and disappear visually.
-- Existing chats without these markers continue to render normally.
-- No rewrite of SillyTavern's core flex/display structure.
+- Keeps the v0.6 semantic mood engine.
+- Compacts the actual SillyTavern message header.
+- Moves the original avatar + original header into one horizontal rail.
+- No cloned controls and no fake date/name metadata.
+- The large empty space above the story should disappear.
+- Prepares a safe top-right rail for the Hanabi mascot layer.
 
-## Next layer
-Hanabi mascot controller + local emotion assets.
+Next: v0.8 mascot controller + transparent Hanabi emotion assets.
