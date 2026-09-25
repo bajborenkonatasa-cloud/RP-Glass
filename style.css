@@ -262,192 +262,68 @@
 }
 
 
-/* === v0.7 COMPACT HEADER =================================================
-   Removes the giant dead header zone by putting the REAL avatar + REAL
-   SillyTavern header into one horizontal rail. No fake duplicate metadata.
-============================================================================ */
-.rp-glass-loaded #chat .mes.rpg-header-compact{
- padding-top:10px!important;
-}
-.rp-glass-loaded #chat .mes.rpg-header-compact .rpg-compact-head{
- display:grid!important;
- grid-template-columns:118px minmax(0,1fr)!important;
- column-gap:12px!important;
- align-items:center!important;
- width:100%!important;
- min-height:118px!important;
- margin:0 0 8px!important;
- padding:0 14px 0 14px!important;
- box-sizing:border-box!important;
-}
-.rp-glass-loaded #chat .mes.rpg-header-compact .rpg-compact-head>.avatar{
- grid-column:1!important;
- grid-row:1!important;
- align-self:start!important;
- justify-self:start!important;
- margin:0!important;
- width:112px!important;
- height:112px!important;
- min-width:112px!important;
- min-height:112px!important;
- position:relative!important;
- inset:auto!important;
- transform:none!important;
-}
-.rp-glass-loaded #chat .mes.rpg-header-compact .rpg-compact-head>.avatar img{
- width:112px!important;height:112px!important;object-fit:cover!important;
- border-radius:23px!important;
-}
-.rp-glass-loaded #chat .mes.rpg-header-compact .rpg-compact-head>.mes_header{
- grid-column:2!important;
- grid-row:1!important;
- align-self:center!important;
- width:100%!important;
- min-width:0!important;
- margin:0!important;
- padding:3px 0!important;
- position:relative!important;
- inset:auto!important;
- transform:none!important;
- display:flex!important;
- flex-wrap:wrap!important;
- align-content:center!important;
- gap:4px 7px!important;
-}
-.rp-glass-loaded #chat .mes.rpg-header-compact .rpg-compact-head .name_text{
- font-size:1.12em!important;
-}
-.rp-glass-loaded #chat .mes.rpg-header-compact .rpg-compact-head .mesIDDisplay,
-.rp-glass-loaded #chat .mes.rpg-header-compact .rpg-compact-head .tokenCounterDisplay{
- opacity:.82!important;
-}
-.rp-glass-loaded #chat .mes.rpg-header-compact .mes_text{
- margin-top:0!important;
- padding-top:0!important;
-}
-@media(max-width:520px){
- .rp-glass-loaded #chat .mes.rpg-header-compact .rpg-compact-head{
-  grid-template-columns:126px minmax(0,1fr)!important;
-  min-height:126px!important;
-  column-gap:10px!important;
-  padding-left:14px!important;padding-right:12px!important;
- }
- .rp-glass-loaded #chat .mes.rpg-header-compact .rpg-compact-head>.avatar,
- .rp-glass-loaded #chat .mes.rpg-header-compact .rpg-compact-head>.avatar img{
-  width:120px!important;height:120px!important;min-width:120px!important;min-height:120px!important;
- }
-}
-
-/* Reserve mascot-safe air without creating another tall empty slab.
-   The actual Hanabi asset layer will occupy this rail in v0.8. */
-.rp-glass-loaded #chat .mes.rpg-header-compact .rpg-compact-head::after{
- content:"✦"!important;
- position:absolute!important;
- right:18px!important;top:14px!important;
- color:#df9bff!important;font-size:21px!important;
- opacity:.9!important;text-shadow:0 0 13px rgba(212,100,255,.8)!important;
- animation:rpgMoodPulse 2.8s ease-in-out infinite!important;
+/* ===== RP-Glass v0.8 Living Layer — mobile first ===== */
+#rpg-hanabi{
+ --rpg-mood:#d873ff;
+ position:fixed!important;
+ right:max(7px,env(safe-area-inset-right))!important;
+ bottom:118px!important;
+ width:88px!important;height:88px!important;
+ z-index:9996!important;
  pointer-events:none!important;
+ filter:drop-shadow(0 0 12px color-mix(in srgb,var(--rpg-mood) 65%,transparent))!important;
+ animation:rpgHanabiFloat 4.8s ease-in-out infinite!important;
 }
+#rpg-hanabi .rpg-hanabi-img{
+ position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+ object-fit:cover!important;object-position:50% 22%!important;
+ border-radius:50%!important;
+ border:2px solid color-mix(in srgb,var(--rpg-mood) 78%,white 22%)!important;
+ box-shadow:inset 0 0 16px rgba(255,255,255,.12),0 0 20px color-mix(in srgb,var(--rpg-mood) 48%,transparent)!important;
+}
+#rpg-hanabi .rpg-hanabi-aura{
+ position:absolute!important;inset:-8px!important;border-radius:50%!important;
+ background:radial-gradient(circle,transparent 52%,color-mix(in srgb,var(--rpg-mood) 32%,transparent) 67%,transparent 74%)!important;
+ animation:rpgAura 2.8s ease-in-out infinite!important;
+}
+#rpg-hanabi .rpg-hanabi-heart{
+ position:absolute!important;right:-2px!important;top:-13px!important;
+ color:var(--rpg-mood)!important;font-size:25px!important;font-weight:900!important;
+ text-shadow:0 0 10px var(--rpg-mood)!important;
+ animation:rpgHeart 2.1s ease-in-out infinite!important;
+}
+#rpg-hanabi[data-mood="romantic"],#rpg-mood-hud[data-mood="romantic"]{--rpg-mood:#ff66c9}
+#rpg-hanabi[data-mood="angry"],#rpg-mood-hud[data-mood="angry"]{--rpg-mood:#ff514d}
+#rpg-hanabi[data-mood="fear"],#rpg-mood-hud[data-mood="fear"]{--rpg-mood:#75e8ff}
+#rpg-hanabi[data-mood="sad"],#rpg-mood-hud[data-mood="sad"]{--rpg-mood:#a78cff}
+#rpg-hanabi[data-mood="magic"],#rpg-mood-hud[data-mood="magic"]{--rpg-mood:#d56cff}
+#rpg-hanabi[data-mood="dreamy"],#rpg-mood-hud[data-mood="dreamy"]{--rpg-mood:#ef8dff}
+#rpg-hanabi[data-mood="playful"],#rpg-mood-hud[data-mood="playful"]{--rpg-mood:#ff84dc}
 
+#rpg-mood-hud{
+ --rpg-mood:#b978ff;
+ position:fixed!important;
+ right:8px!important;bottom:207px!important;
+ z-index:9995!important;pointer-events:none!important;
+ display:flex!important;align-items:center!important;gap:5px!important;
+ max-width:132px!important;padding:5px 8px!important;
+ border:1px solid color-mix(in srgb,var(--rpg-mood) 70%,transparent)!important;
+ border-radius:999px!important;
+ background:rgba(10,7,20,.82)!important;
+ backdrop-filter:blur(8px)!important;
+ color:#fff!important;font:600 10px/1.15 system-ui,sans-serif!important;
+ box-shadow:0 0 14px color-mix(in srgb,var(--rpg-mood) 25%,transparent)!important;
+}
+#rpg-mood-hud .rpg-mood-icon{color:var(--rpg-mood)!important;text-shadow:0 0 7px var(--rpg-mood)!important}
 
-/* === v0.7.1 ACTUAL HEADER REPAIR =========================================
-   v0.7 contained the mover but boot did not invoke it.
-   This layout places avatar + real metadata + scene/date strip in ONE rail.
-============================================================================ */
-.rp-glass-loaded #chat .mes.rpg-header-compact .rpg-compact-head{
- position:relative!important;
- display:grid!important;
- grid-template-columns:124px minmax(0,1fr)!important;
- gap:10px!important;
- align-items:start!important;
- width:100%!important;
- min-height:0!important;
- margin:0 0 10px!important;
- padding:10px 14px 0!important;
- box-sizing:border-box!important;
-}
-.rp-glass-loaded #chat .mes.rpg-header-compact .rpg-compact-head>.avatar{
- grid-column:1!important;
- width:118px!important;height:118px!important;
- min-width:118px!important;min-height:118px!important;
- margin:0!important;position:relative!important;inset:auto!important;transform:none!important;
-}
-.rp-glass-loaded #chat .mes.rpg-header-compact .rpg-compact-head>.avatar img{
- width:116px!important;height:116px!important;min-width:116px!important;min-height:116px!important;
- object-fit:cover!important;border-radius:22px!important;
-}
-.rp-glass-loaded #chat .mes.rpg-header-compact .rpg-head-right{
- grid-column:2!important;
- min-width:0!important;
- display:flex!important;
- flex-direction:column!important;
- gap:7px!important;
- align-self:start!important;
-}
-.rp-glass-loaded #chat .mes.rpg-header-compact .rpg-head-right>.mes_header{
- width:100%!important;
- min-width:0!important;
- margin:0!important;padding:1px 28px 0 0!important;
- position:relative!important;inset:auto!important;transform:none!important;
- display:flex!important;flex-wrap:wrap!important;gap:3px 7px!important;
- align-items:center!important;
-}
-.rp-glass-loaded #chat .mes.rpg-header-compact .rpg-head-right>.rpg-scene-header{
- display:block!important;
- position:relative!important;overflow:hidden!important;
- width:100%!important;max-width:none!important;box-sizing:border-box!important;
- margin:0!important;padding:10px 12px 10px 14px!important;
- border:1px solid rgba(93,232,255,.68)!important;
- border-left:5px solid #69edff!important;border-radius:14px!important;
- background:
-   radial-gradient(circle at 94% 4%,rgba(202,92,255,.27),transparent 30%),
-   linear-gradient(105deg,rgba(57,42,107,.78),rgba(8,24,39,.91))!important;
- color:#f8feff!important;
- font-family:system-ui,-apple-system,"Segoe UI",sans-serif!important;
- font-size:.89em!important;font-weight:780!important;line-height:1.43!important;
- text-indent:0!important;
- box-shadow:inset 0 0 20px rgba(95,224,255,.07),0 0 16px rgba(81,224,255,.20),0 0 30px rgba(170,79,255,.11)!important;
- text-shadow:0 0 9px rgba(174,237,255,.32)!important;
-}
-.rp-glass-loaded #chat .mes.rpg-header-compact .mes_text{
- width:100%!important;
- margin-top:0!important;padding-top:0!important;
-}
-.rp-glass-loaded #chat .mes.rpg-header-compact .rpg-compact-head::after{
- top:9px!important;right:15px!important;
-}
+@keyframes rpgHanabiFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-5px) rotate(1deg)}}
+@keyframes rpgAura{0%,100%{opacity:.55;transform:scale(.96)}50%{opacity:1;transform:scale(1.05)}}
+@keyframes rpgHeart{0%,100%{transform:translateY(0) scale(.9);opacity:.7}50%{transform:translateY(-5px) scale(1.08);opacity:1}}
 
-/* Full-width book reader: align to the card edges, not the text inset. */
-@media(max-width:700px){
- .rp-glass-loaded #chat .mes_text details.rpg-reader{
-  width:calc(100% + 42px)!important;
-  margin-left:-21px!important;
-  margin-right:-21px!important;
-  padding-left:20px!important;padding-right:20px!important;
- }
- .rp-glass-loaded #chat .mes.rpg-header-compact .rpg-compact-head{
-  grid-template-columns:122px minmax(0,1fr)!important;
-  gap:9px!important;padding-left:13px!important;padding-right:12px!important;
- }
- .rp-glass-loaded #chat .mes.rpg-header-compact .rpg-compact-head>.avatar{
-  width:116px!important;height:116px!important;min-width:116px!important;min-height:116px!important;
- }
- .rp-glass-loaded #chat .mes.rpg-header-compact .rpg-compact-head>.avatar img{
-  width:114px!important;height:114px!important;min-width:114px!important;min-height:114px!important;
- }
- .rp-glass-loaded #chat .mes.rpg-header-compact .rpg-head-right>.rpg-scene-header{
-  font-size:.84em!important;line-height:1.38!important;padding:9px 10px 9px 12px!important;
- }
+@media(min-width:760px){
+ #rpg-hanabi{width:112px!important;height:112px!important;bottom:100px!important;right:18px!important}
+ #rpg-mood-hud{bottom:218px!important;right:18px!important}
 }
-
-#rpg-diag-panel{
- position:fixed!important;left:8px!important;right:8px!important;bottom:82px!important;z-index:2147483646!important;
- max-height:48vh!important;overflow:auto!important;padding:10px 12px!important;
- background:rgba(9,7,18,.97)!important;border:2px solid #d77cff!important;border-radius:14px!important;
- color:#fff!important;font:12px/1.45 monospace!important;box-shadow:0 0 28px rgba(197,87,255,.55)!important;
- word-break:break-word!important;text-align:left!important;
+@media(prefers-reduced-motion:reduce){
+ #rpg-hanabi,#rpg-hanabi *{animation:none!important}
 }
-#rpg-diag-panel .rpg-diag-title{font:bold 14px/1.4 system-ui!important;color:#efc7ff!important;margin-bottom:7px!important}
-#rpg-diag-panel button{float:right!important;background:#4a205f!important;color:white!important;border:0!important;border-radius:8px!important;font-size:18px!important}
-#rpg-diag-panel b{color:#76efff!important}
