@@ -1,10 +1,12 @@
-# RP Glass v0.7.0
+# RP Glass v0.7.1
 
-- Keeps the v0.6 semantic mood engine.
-- Compacts the actual SillyTavern message header.
-- Moves the original avatar + original header into one horizontal rail.
-- No cloned controls and no fake date/name metadata.
-- The large empty space above the story should disappear.
-- Prepares a safe top-right rail for the Hanabi mascot layer.
+Hotfix for the compact message header.
 
-Next: v0.8 mascot controller + transparent Hanabi emotion assets.
+The v0.7 mover existed but was not called from boot. v0.7.1:
+- actually runs header compaction on load and on new messages;
+- moves the original avatar and original SillyTavern metadata into one rail;
+- moves the RP scene/date strip beside the avatar;
+- keeps original DOM nodes/handlers;
+- tightens the independent-reader panel to the mobile card edges.
+
+This is the layout foundation before the Hanabi mascot layer.
