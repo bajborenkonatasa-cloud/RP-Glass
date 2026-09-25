@@ -440,3 +440,14 @@
   font-size:.84em!important;line-height:1.38!important;padding:9px 10px 9px 12px!important;
  }
 }
+
+#rpg-diag-panel{
+ position:fixed!important;left:8px!important;right:8px!important;bottom:82px!important;z-index:2147483646!important;
+ max-height:48vh!important;overflow:auto!important;padding:10px 12px!important;
+ background:rgba(9,7,18,.97)!important;border:2px solid #d77cff!important;border-radius:14px!important;
+ color:#fff!important;font:12px/1.45 monospace!important;box-shadow:0 0 28px rgba(197,87,255,.55)!important;
+ word-break:break-word!important;text-align:left!important;
+}
+#rpg-diag-panel .rpg-diag-title{font:bold 14px/1.4 system-ui!important;color:#efc7ff!important;margin-bottom:7px!important}
+#rpg-diag-panel button{float:right!important;background:#4a205f!important;color:white!important;border:0!important;border-radius:8px!important;font-size:18px!important}
+#rpg-diag-panel b{color:#76efff!important}

@@ -1,6 +1,6 @@
 (() => {
 "use strict";
-const VERSION = "0.7.1";
+const VERSION = "0.7.2";
 
 function addParticles(host, cls, glyphs, count){
   if (host.querySelector(`:scope > .${cls}`)) return;
@@ -158,3 +158,37 @@ function boot(){
 }
 document.readyState==="loading"?document.addEventListener("DOMContentLoaded",boot,{once:true}):boot();
 })();
+
+
+function rpGlassDiagnostic(){
+  const old=document.getElementById("rpg-diag-panel"); if(old) old.remove();
+  const messages=[...document.querySelectorAll("#chat .mes")];
+  const mes=messages.find(m=>m.getAttribute("mesid")==="79" || m.dataset.mesid==="79") || messages.at(-1);
+  if(!mes) return;
+
+  const scene=mes.querySelector(".rpg-scene-header");
+  const avatar=mes.querySelector(".avatar");
+  const header=mes.querySelector(".mes_header");
+  const text=mes.querySelector(".mes_text");
+  const block=text?.closest(".mes_block");
+
+  const desc=(el)=>!el?"NOT FOUND":
+    `${el.tagName.toLowerCase()}#${el.id||"-"}.${[...el.classList].join(".")||"-"}  parent=${el.parentElement?.tagName.toLowerCase()||"-"}#${el.parentElement?.id||"-"}.${[...(el.parentElement?.classList||[])].join(".")||"-"}`;
+
+  const panel=document.createElement("div");
+  panel.id="rpg-diag-panel";
+  panel.innerHTML=`
+    <div class="rpg-diag-title">🧪 RP-Glass DOM diagnostic <button type="button">×</button></div>
+    <div><b>message:</b> ${mes.getAttribute("mesid")||mes.dataset.mesid||"?"}</div>
+    <div><b>avatar:</b> ${desc(avatar)}</div>
+    <div><b>header:</b> ${desc(header)}</div>
+    <div><b>mes_block:</b> ${desc(block)}</div>
+    <div><b>mes_text:</b> ${desc(text)}</div>
+    <div><b>scene/date:</b> ${desc(scene)}</div>
+    <div><b>compact row:</b> ${desc(mes.querySelector(".rpg-compact-head"))}</div>
+    <div><b>scene moved?</b> ${scene?.closest(".rpg-head-right") ? "YES" : "NO"}</div>`;
+  document.body.appendChild(panel);
+  panel.querySelector("button").onclick=()=>panel.remove();
+}
+
+setTimeout(rpGlassDiagnostic,1800);

@@ -1,12 +1,2 @@
-# RP Glass v0.7.1
-
-Hotfix for the compact message header.
-
-The v0.7 mover existed but was not called from boot. v0.7.1:
-- actually runs header compaction on load and on new messages;
-- moves the original avatar and original SillyTavern metadata into one rail;
-- moves the RP scene/date strip beside the avatar;
-- keeps original DOM nodes/handlers;
-- tightens the independent-reader panel to the mobile card edges.
-
-This is the layout foundation before the Hanabi mascot layer.
+# RP-Glass v0.7.2 DIAGNOSTIC
+Temporary diagnostic build. It shows a small panel with the actual DOM selectors/parents for message #79 (or the last message). Close with ×. Send one screenshot of that panel. Then remove this diagnostic build and install the final header patch.
