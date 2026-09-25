@@ -1,0 +1,65 @@
+/* RP Glass v0.1.0 — Foundation */
+
+:root.rp-glass-loaded {
+    --rpg-purple: #b86cff;
+    --rpg-violet: #7d42ff;
+    --rpg-pink: #ff6fca;
+    --rpg-cyan: #70eaff;
+    --rpg-glass: linear-gradient(145deg, rgba(27,17,39,.72), rgba(10,13,24,.82));
+    --rpg-border: rgba(184,108,255,.34);
+}
+
+.rp-glass-loaded #chat .mes {
+    position: relative;
+    background: var(--rpg-glass);
+    border: 1px solid var(--rpg-border);
+    border-radius: 18px;
+    box-shadow: 0 8px 30px rgba(0,0,0,.24), inset 0 1px 0 rgba(255,255,255,.035);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    overflow: visible;
+}
+
+.rp-glass-loaded #chat .mes .name_text {
+    color: #e8c8ff;
+    text-shadow: 0 0 8px rgba(184,108,255,.65), 0 0 18px rgba(125,66,255,.28);
+}
+
+.rp-glass-loaded #chat .mes_text {
+    line-height: 1.72;
+    letter-spacing: .01em;
+}
+
+.rp-glass-loaded #chat .mes_text em,
+.rp-glass-loaded #chat .mes_text i {
+    color: #caffdf;
+    text-shadow: 0 0 7px rgba(104,255,180,.28);
+}
+
+.rp-glass-loaded #chat .mes_text details {
+    margin: 14px 0;
+    padding: 10px 13px;
+    border: 1px solid rgba(190,112,255,.42);
+    border-left: 3px solid var(--rpg-purple);
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(88,39,120,.20), rgba(16,12,27,.68));
+    box-shadow: 0 0 18px rgba(150,70,255,.10);
+}
+
+.rp-glass-loaded #chat .mes_text summary {
+    cursor: pointer;
+    color: #e7c6ff;
+    font-weight: 700;
+    text-shadow: 0 0 8px rgba(184,108,255,.35);
+}
+
+.rp-glass-loaded #chat .mes::after {
+    content: "✦";
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    font-size: 10px;
+    color: rgba(208,151,255,.48);
+    text-shadow: 0 0 8px rgba(185,95,255,.75);
+    pointer-events: none;
+}
