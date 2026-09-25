@@ -1,6 +1,10 @@
 (() => {
 "use strict";
-const VERSION = "0.8.0";
+const VERSION = "0.8.1";
+const RPG_SCRIPT_SRC = document.currentScript && document.currentScript.src ? document.currentScript.src : "";
+const RPG_ASSET_BASE = RPG_SCRIPT_SRC
+  ? new URL("./assets/", RPG_SCRIPT_SRC).href
+  : "/scripts/extensions/third-party/RP-Glass/assets/";
 
 function addParticles(host, cls, glyphs, count){
   if (host.querySelector(`:scope > .${cls}`)) return;
@@ -69,7 +73,17 @@ function semanticPass(text){
 }
 
 
-const RPG_ASSET_BASE = new URL("./assets/", import.meta.url).href;
+
+function ensureBootBadge(){
+  let badge=document.getElementById("rpg-boot-badge");
+  if(badge) return badge;
+  badge=document.createElement("div");
+  badge.id="rpg-boot-badge";
+  badge.textContent="RP✓";
+  badge.title="RP-Glass JavaScript is running";
+  document.body.appendChild(badge);
+  return badge;
+}
 
 function ensureMascot(){
   let root=document.getElementById("rpg-hanabi");
@@ -167,6 +181,7 @@ function classify(){
 
 function boot(){
  document.documentElement.classList.add("rp-glass-loaded");
+ ensureBootBadge();
  const wait=()=>{
   const chat=document.querySelector("#chat");
   if(!chat)return setTimeout(wait,350);

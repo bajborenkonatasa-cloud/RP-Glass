@@ -1,15 +1,17 @@
-# RP-Glass v0.8.0 — Living Layer
+# RP-Glass v0.8.1 — Bootstrap Fix
 
-Built cleanly from the known-working v0.6 base.
+Root cause fixed:
+v0.8.0 used `import.meta.url` inside a classic SillyTavern extension script.
+That is a JavaScript parse error outside ES modules, so the whole index.js could not start.
 
-First real interactive layer:
-- Hanabi mascot on screen using the user's reference image.
-- Mobile-first safe placement above the input area.
-- Mood HUD.
-- Mood colors: neutral, romance, anger, fear, sadness, magic/dreamy/playful.
-- Reads explicit RP-Glass mood markers when present.
-- Has a lightweight text fallback so the layer can react before the prompt is updated.
-- Does NOT move or restructure SillyTavern's message DOM.
-- Existing thoughts/reader/book styling stays intact.
+v0.8.1:
+- removes `import.meta.url`;
+- derives the assets URL from `document.currentScript.src`;
+- adds an obvious `RP✓` boot badge;
+- keeps the v0.6 visual base intact;
+- keeps Hanabi + mood HUD Living Layer.
 
-Next milestone: transparent/chibi emotion assets + explicit prompt markers + mascot positions/modes.
+Expected test:
+1. RP✓ appears near the upper-right of the Tavern viewport.
+2. Hanabi mascot appears above the input area.
+3. Mood HUD appears above Hanabi.
