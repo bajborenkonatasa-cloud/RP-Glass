@@ -1,4 +1,4 @@
-/* RP GLASS v0.5 — MOBILE VISUAL PASS
+/* RP GLASS v0.6 — SEMANTIC ENGINE + MOBILE ALIGNMENT
    Keeps SillyTavern's message skeleton intact; changes sizing/decor only. */
 :root.rp-glass-loaded{
  --rpg-purple:#c56cff;--rpg-pink:#ff7de9;--rpg-cyan:#70ecff;--rpg-gold:#f5b968;
@@ -107,8 +107,8 @@
 /* READER — wider, shorter, like an illuminated book strip */
 .rp-glass-loaded #chat .mes_text details.rpg-reader{
  isolation:isolate!important;
- width:calc(100% + 38px)!important;max-width:none!important;box-sizing:border-box!important;
- margin:8px -19px 9px!important;padding:13px 22px 14px!important;
+ width:calc(100% + 32px)!important;max-width:none!important;box-sizing:border-box!important;
+ margin:8px -19px 9px -13px!important;padding:13px 20px 14px!important;
  border:1px solid rgba(247,187,105,.68)!important;border-left:5px solid #f5b968!important;border-right:2px solid rgba(247,187,105,.45)!important;
  border-radius:14px!important;
  background:
@@ -158,5 +158,105 @@
 @media(max-width:700px){
  .rp-glass-loaded #chat .mes.rp-glass-message .mes_text{font-size:1.02em!important;line-height:1.66!important}
  .rp-glass-loaded #chat .mes_text .rpg-scene-header{font-size:.84em!important}
- .rp-glass-loaded #chat .mes_text details.rpg-reader{width:calc(100% + 42px)!important;margin-left:-21px!important;margin-right:-21px!important;padding-left:20px!important;padding-right:20px!important}
+ .rp-glass-loaded #chat .mes_text details.rpg-reader{width:calc(100% + 35px)!important;margin-left:-14px!important;margin-right:-21px!important;padding-left:18px!important;padding-right:18px!important}
+}
+
+
+/* === v0.6 SEMANTIC STORY ENGINE =========================================
+   Activated only when the story contains tiny [[speaker:...]][[mood:...]]
+   markers. They are stripped from visible text by index.js.
+   No structural SillyTavern layout changes.
+========================================================================= */
+.rp-glass-loaded #chat .mes_text .rpg-dialogue{
+ position:relative!important;
+ margin:.78em 0!important;
+ padding:.56em .85em .62em 1.05em!important;
+ text-indent:0!important;
+ border-left:3px solid rgba(197,108,255,.72)!important;
+ border-radius:4px 13px 13px 4px!important;
+ background:linear-gradient(90deg,rgba(158,70,218,.10),rgba(158,70,218,.015) 75%,transparent)!important;
+ transition:filter .25s ease,box-shadow .25s ease!important;
+}
+.rp-glass-loaded #chat .mes_text .rpg-dialogue[data-rpg-speaker]::before{
+ content:attr(data-rpg-speaker)!important;
+ display:block!important;
+ margin:0 0 .22em!important;
+ color:#e7baff!important;
+ font-family:system-ui,-apple-system,"Segoe UI",sans-serif!important;
+ font-size:.72em!important;font-weight:850!important;letter-spacing:.055em!important;
+ text-transform:uppercase!important;
+ text-shadow:0 0 8px rgba(202,110,255,.38)!important;
+}
+
+/* Soft / romantic */
+.rp-glass-loaded #chat .mes_text .rpg-mood-soft,
+.rp-glass-loaded #chat .mes_text .rpg-mood-romantic{
+ border-left-color:#ff8edc!important;
+ background:linear-gradient(90deg,rgba(255,92,190,.13),rgba(151,75,255,.045),transparent)!important;
+ box-shadow:inset 0 0 18px rgba(255,92,190,.035)!important;
+}
+.rp-glass-loaded #chat .mes_text .rpg-mood-romantic::after{
+ content:"♡"!important;position:absolute!important;right:10px!important;top:5px!important;
+ color:#ff9de1!important;font-size:14px!important;text-shadow:0 0 9px #ff65cf!important;
+ animation:rpgMoodPulse 2.6s ease-in-out infinite!important;
+}
+
+/* Angry */
+.rp-glass-loaded #chat .mes_text .rpg-mood-angry{
+ border-left-color:#ff526b!important;
+ background:linear-gradient(90deg,rgba(255,45,73,.16),rgba(93,8,27,.04),transparent)!important;
+ box-shadow:inset 8px 0 20px rgba(255,35,63,.04),0 0 10px rgba(255,48,76,.035)!important;
+}
+.rp-glass-loaded #chat .mes_text .rpg-mood-angry::after{
+ content:"✦"!important;position:absolute!important;right:10px!important;top:6px!important;
+ color:#ff6076!important;text-shadow:0 0 10px #ff2848!important;
+}
+
+/* Fear */
+.rp-glass-loaded #chat .mes_text .rpg-mood-fear{
+ border-left-color:#9be9ff!important;
+ background:linear-gradient(90deg,rgba(113,218,255,.13),rgba(81,91,180,.035),transparent)!important;
+ box-shadow:inset 0 0 18px rgba(102,218,255,.035)!important;
+ animation:rpgFearBreath 4.2s ease-in-out infinite!important;
+}
+
+/* Magic / dreamy */
+.rp-glass-loaded #chat .mes_text .rpg-mood-magic,
+.rp-glass-loaded #chat .mes_text .rpg-mood-dreamy{
+ border-left-color:#c87cff!important;
+ background:
+  radial-gradient(circle at 90% 15%,rgba(104,235,255,.11),transparent 22%),
+  linear-gradient(90deg,rgba(181,86,255,.14),rgba(75,205,255,.035),transparent)!important;
+ box-shadow:inset 0 0 20px rgba(177,80,255,.04)!important;
+}
+.rp-glass-loaded #chat .mes_text .rpg-mood-magic::after,
+.rp-glass-loaded #chat .mes_text .rpg-mood-dreamy::after{
+ content:"✦  ·  ✧"!important;position:absolute!important;right:10px!important;top:4px!important;
+ color:#e3b5ff!important;font-size:12px!important;text-shadow:0 0 8px #b96cff,0 0 12px #70ecff!important;
+ animation:rpgMoodPulse 2.8s ease-in-out infinite!important;
+}
+
+/* Sad */
+.rp-glass-loaded #chat .mes_text .rpg-mood-sad{
+ border-left-color:#7898e8!important;
+ background:linear-gradient(90deg,rgba(75,99,177,.13),rgba(31,35,72,.025),transparent)!important;
+}
+
+/* Playful */
+.rp-glass-loaded #chat .mes_text .rpg-mood-playful{
+ border-left-color:#ff9bdc!important;
+ background:linear-gradient(90deg,rgba(255,113,205,.12),rgba(173,91,255,.035),transparent)!important;
+}
+.rp-glass-loaded #chat .mes_text .rpg-mood-playful::after{
+ content:"✧"!important;position:absolute!important;right:10px!important;top:5px!important;color:#ffc2ec!important;
+ text-shadow:0 0 10px #ff72d4!important;animation:rpgMoodWink 2.2s ease-in-out infinite!important;
+}
+
+@keyframes rpgMoodPulse{50%{transform:scale(1.24);opacity:.55}}
+@keyframes rpgMoodWink{0%,72%,100%{transform:rotate(0) scale(1)}82%{transform:rotate(18deg) scale(1.3)}}
+@keyframes rpgFearBreath{0%,100%{filter:none}50%{filter:drop-shadow(0 0 3px rgba(130,225,255,.14))}}
+
+@media(prefers-reduced-motion:reduce){
+ .rp-glass-loaded #chat .mes_text .rpg-dialogue,
+ .rp-glass-loaded #chat .mes_text .rpg-dialogue::after{animation:none!important}
 }

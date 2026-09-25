@@ -1,6 +1,6 @@
 (() => {
 "use strict";
-const VERSION = "0.5.0";
+const VERSION = "0.6.0";
 
 function addParticles(host, cls, glyphs, count){
   if (host.querySelector(`:scope > .${cls}`)) return;
@@ -15,11 +15,65 @@ function addParticles(host, cls, glyphs, count){
   host.prepend(box);
 }
 
+
+const MOODS = new Set(["neutral","soft","romantic","dreamy","sad","angry","fear","magic","playful"]);
+
+function semanticPass(text){
+  if(text.dataset.rpgSemanticDone==="1") return;
+
+  // Optional tiny metadata understood by RP-Glass:
+  // [[speaker:Name]][[mood:angry]] followed by the paragraph it belongs to.
+  // The markers are removed from the visible story after being read.
+  const walker=document.createTreeWalker(text,NodeFilter.SHOW_TEXT);
+  const nodes=[];
+  while(walker.nextNode()) nodes.push(walker.currentNode);
+
+  let pendingSpeaker="", pendingMood="";
+  const rx=/\[\[(speaker|mood):([^\]]+)\]\]/gi;
+
+  nodes.forEach(node=>{
+    if(node.parentElement?.closest("details")) return;
+    const original=node.nodeValue||"";
+    if(!original.includes("[[")) return;
+
+    let found=false;
+    const cleaned=original.replace(rx,(_,kind,value)=>{
+      found=true;
+      value=(value||"").trim();
+      if(kind.toLowerCase()==="speaker") pendingSpeaker=value.slice(0,40);
+      if(kind.toLowerCase()==="mood"){
+        const m=value.toLowerCase();
+        pendingMood=MOODS.has(m)?m:"neutral";
+      }
+      return "";
+    });
+    if(found) node.nodeValue=cleaned;
+
+    let target=node.parentElement?.closest("p,blockquote");
+    if(!target){
+      let next=node.parentElement?.nextElementSibling;
+      if(next?.matches?.("p,blockquote")) target=next;
+    }
+    if(target && (pendingSpeaker||pendingMood)){
+      target.classList.add("rpg-dialogue");
+      if(pendingMood) target.classList.add(`rpg-mood-${pendingMood}`);
+      if(pendingSpeaker){
+        target.dataset.rpgSpeaker=pendingSpeaker;
+        target.style.setProperty("--rpg-speaker", `"${pendingSpeaker.replace(/"/g,"'")}"`);
+      }
+      pendingSpeaker=""; pendingMood="";
+    }
+  });
+
+  text.dataset.rpgSemanticDone="1";
+}
+
 function classify(){
   document.querySelectorAll("#chat .mes").forEach(mes=>{
     mes.classList.add("rp-glass-message");
     const text=mes.querySelector(".mes_text");
     if(!text) return;
+    semanticPass(text);
 
     const h1=text.querySelector(":scope > h1");
     if(h1 && /📅|🕒|📍|🌫/.test(h1.textContent||"")){

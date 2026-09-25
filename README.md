@@ -1,17 +1,15 @@
-# RP Glass v0.5.0
-Mobile visual pass based on real-device screenshots.
+# RP Glass v0.6.0
 
-Changes:
-- larger 76px avatars with stronger violet glow
-- brighter/larger card sparkle
-- brighter and larger date/time/place banner + animated sparkles
-- denser, brighter animated stars in Thoughts
-- tighter vertical spacing between meta panels
-- Independent Reader is wider and less vertically wasteful
-- Reader gets old-book ornament, moving shadow ambience and gold dust
-- still no rewrite of SillyTavern's core message flex/display structure
+## What changed
+- Independent Reader left edge corrected on mobile; it remains deliberately wide.
+- Adds the first real RP-Glass semantic engine.
+- Optional hidden-on-render metadata:
+  `[[speaker:Xaden]][[mood:angry]]`
+- Supported moods:
+  neutral, soft, romantic, dreamy, sad, angry, fear, magic, playful.
+- Speaker/mood markers decorate the associated story paragraph and disappear visually.
+- Existing chats without these markers continue to render normally.
+- No rewrite of SillyTavern's core flex/display structure.
 
-Next planned layer:
-- semantic dialogue/NPC styling
-- mood system
-- Hanabi mascot/emotion asset slots
+## Next layer
+Hanabi mascot controller + local emotion assets.
